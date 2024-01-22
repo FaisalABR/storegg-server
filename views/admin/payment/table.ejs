@@ -1,0 +1,57 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>Type</th>
+      <th>Banks</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(let i=0; i < payment.length; i++) { %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= payment[i].type %></td>
+      <td>
+        <% payment[i].banks.forEach(bank =>{ %>
+        <span class="badge badge-warning">
+          <%= bank.name %>-<%= bank.bankName %>-<%= bank.numAccount %>
+        </span>
+        <%})%>
+      </td>
+      <td>
+        <% if(payment[i].status === 'Y') {%>
+        <span class="badge badge-success">Active</span>
+        <%} else {%>
+        <span class="badge badge-danger">Non-Active</span>
+        <%}%>
+      </td>
+      <td>
+        <form
+          style="display: inline-block"
+          action="/payment/status/<%= payment[i]._id%>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-primary btn-sm">
+            <% if(payment[i].status === 'Y') {%> Turn Off <%} else {%> Turn On
+            <%}%>
+          </button>
+        </form>
+        <form
+          action="/payment/delete/<%= payment[i]._id %>?_method=DELETE"
+          method="POST"
+          style="display: inline-block"
+        >
+          <a
+            class="btn btn-warning btn-sm"
+            href="/payment/edit/<%= payment[i]._id %>"
+            >Edit</a
+          >
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </td>
+    </tr>
+    <%} %>
+  </tbody>
+</table>
