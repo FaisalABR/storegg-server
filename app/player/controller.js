@@ -31,11 +31,13 @@ module.exports = {
         .populate("user")
         .populate("nominals");
 
+      const payment = await Payment.find();
+
       if (!voucher) {
         return res.status(404).json({ message: "Voucher tidak ditemukan!" });
       }
 
-      res.status(200).json({ data: voucher });
+      res.status(200).json({ data: { details: voucher, payment } });
     } catch (error) {
       res
         .status(500)
